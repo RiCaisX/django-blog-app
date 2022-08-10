@@ -1,5 +1,5 @@
 Django
 django-ckeditor
-cjango-cleanup
+django-cleanup
 django-crispy-forms
 django-js-asset
