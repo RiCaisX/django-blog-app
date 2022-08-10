@@ -1,4 +1,4 @@
-from msilib.schema import Registry
+
 from django.shortcuts import render,redirect
 from .forms import LoginForm, RegisterForm
 
