@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block body %}
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h3 class="fw-bolder mb-1">{{article.title}}</h3>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">{{article.author.username}} tarafından yayınlandı</div>
+                            <hr>
+                            <div class="text-muted fst-italic mb-2">{{article.created_date}}</div>
+                            <hr>
+                            <!-- Post categories-->
+                            <a class="badge badge-secondary" href="#!">
+                            {{article.content_type}}
+                            </a>
+                        </header>
+                        <!-- Preview image figure-->
+                        {% if article.article_image %}
+                        <figure class="mb-4"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt="..." /></figure>    
+                        {% endif %}
+                        
+                        <!-- Post content-->
+                        <section class="mb-5">
+                            <p>
+                                {{article.content|safe}}
+                            </p>
+                        </section>
+                    </article>
+                </div>
+            </div>
+                    <!-- Comments section-->
+                    <section class="mb-5">
+                        <div class="card bg-light">
+                            
+                            <div class="card-body">
+                                <form method = "post" action = "{% url 'article:comment' article.id %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for = "formGroupExampleInput">İsim</label>
+                                        <input name = "comment_author" type="text" class="form-control" id= "formGroupExampleInput" placeholder="İsim">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput">Yorum</label>
+                                        <textarea name = "comment_content" rows = "3" class="form-control" placeholder="Yorum Bırakın"></textarea>
+                                    </div>
+                                    <button type="submit" class ="btn btn-primary">Ekle</button>
+                                </form>
+                                {% if comments %}
+                                {% for comment in comments %}
+                                <hr>
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                        <div class="ms-3">
+                                            <h6 class="fw-bold">{{comment.comment_author}}</h6>
+                                            <sup>{{comment.comment_date}}</sup><br>
+                                            {{comment.comment_content}}
+                                        </div>
+                                </div>
+                                
+                                {% endfor %}
+                                
+                                {% else %}
+                                <div class = "alert alert-danger ">
+                                    Bu makaleye herhangi bir yorum yazılmamış, ilk yorum yapan siz olun!
+                                </div>
+                                {% endif %}                                                   
+                            </div>
+                        </div>
+                    </section>
+
+                    
+                </div>
+                <!-- Side widgets-->
+                <div class="col-lg-4">
+                    <!-- Search widget-->
+                    <!--<form action="/articles/" method = "post">
+                    {% csrf_token %}
+                    <div class="card mb-4">
+                        <div class="card-header">Ara</div>
+                        <div class="card-body">
+                            <div class="input-group">
+                            
+                            <input type="text" name = "keyword" class="form-control"  maxlength="64" placeholder="Ara...">
+                            <button type="submit" class="btn btn-primary">Ara</button>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    </form>-->
+                    <!-- Categories widget-->
+                </div>
+            </div>
+
+
+{% endblock body %}
